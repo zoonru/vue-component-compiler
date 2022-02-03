@@ -3,12 +3,19 @@ import * as postcss from 'postcss'
 // https://github.com/vuejs/vue-component-compiler/pull/103#issuecomment-632676899
 const CleanCSS = require('clean-css')
 
-export default postcss.plugin('clean', (options: any) => {
+const postcssPluginClean = (options = {}) => {
   const clean = new CleanCSS({ compatibility: 'ie9', ...options })
 
-  return (css: any, res: any) => {
-    const output = clean.minify(css.toString())
+  return {
+    postcssPlugin: 'clean',
+    // @ts-ignore
+    Once (root, { result }) {
+      const output = clean.minify(root.toString())
 
-    res.root = postcss.parse(output.styles)
+      result.css = postcss.parse(output.styles)
+    }
   }
-})
+};
+postcssPluginClean.postcss = true;
+
+export default postcssPluginClean;

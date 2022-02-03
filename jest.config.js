@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'node',
   moduleFileExtensions: ['js', 'json', 'png', 'ts', 'vue'],
   transform: {
     '^.+\\.js$': 'babel-jest',
